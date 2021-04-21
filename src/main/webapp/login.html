@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>音乐播放器登录页面</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+<!--    <script type="text/javascript"></script>-->
+
+<!--    <script type="application/x-javascript">-->
+<!--        function validate(f) {-->
+<!--            // var re1 = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;-->
+<!--            var input1 = f.userId.value;-->
+<!--            if (/^\d+$/.test(input1)==true){-->
+<!--                if (!(/^\d{11}$/.test(input1))){-->
+<!--                    alert("请输入11位手机号！ ");-->
+<!--                    f.userId.focus();-->
+<!--                    return false;-->
+<!--                }-->
+<!--            }-->
+
+<!--            if (!(/^[0-9a-zA-Z.]{6,16}$/.test(f.password.value))){-->
+<!--                alert("密码必须是6-16位！");-->
+<!--                f.password.focus();-->
+<!--                return false;-->
+<!--            }-->
+<!--            return true;-->
+<!--        }-->
+<!--        function validate2(f) {-->
+<!--            // var re2 = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;-->
+<!--            var input1 = f.username.value;-->
+<!--                      var input2 = f.password.value;-->
+<!--                      var input3 = f.userphone.value;-->
+
+<!--                      if (/^\d+$/.test(input3)==true){-->
+<!--                          if (!(/^\d{11}$/.test(input3))){-->
+<!--                              alert("请输入11位手机号！");-->
+<!--                              f.userphone.focus();-->
+<!--                              return false;-->
+<!--                          }-->
+<!--                      }else {-->
+<!--                          alert("请确保输入的手机号码为数字！");-->
+
+<!--                      }-->
+<!--                      if (!(/^[0-9a-zA-Z.]{6,16}$/.test(input2))){-->
+<!--                          alert("密码必须是6-16位！");-->
+<!--                          f.password.focus();-->
+<!--                          return false;-->
+<!--                      }-->
+<!--                      return true;-->
+
+<!--        }-->
+
+
+<!--    </script>-->
+    <style>
+        #body {
+            background-color: #a6e1ec;
+            <!--background-image: url("images/6.jpg");-->
+            background-size: 240% 240%;
+            background-attachment: fixed;
+        }
+    </style>
+    <script>
+        //登录请求
+        $(function () {
+            $("#submit").click(function () {
+                var username = $("#user").val();
+                var password = $("#password").val();
+                $.ajax({
+                    url: "loginServlet",
+                    data: {"username": username, "password": password},
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.msg === true) {
+                            window.location.href = "list.html";
+                        } else {
+                            // window.location.reload();
+                            $("#message").text("亲~账号或密码有错哦，请重新输入!");
+                            $("#user").val("");
+                            $("#password").val("");
+                            $("#verifycode").val("");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body id="body" >
+<div class="container" style="width: 400px;margin-top: 110px;background-color: rgba(255,255,255,0.8)">
+    <h3 style="text-align: center;">欢迎来到登录页面</h3>
+
+    <!--            <form action="login" method="post">-->
+    <div class="form-group">
+        <label for="user">用户名：</label>
+        <input type="text" name="username" class="form-control" id="user" placeholder="请输入用户名"/>
+    </div>
+
+    <div class="form-group">
+        <label for="password">密码：</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="请输入密码"/>
+    </div>
+
+    <hr/>
+    <div class="form-group" style="text-align: center;"><!--class="form-group"-->
+        <input style="width: 200px;height: 40px" id="submit" class="btn btn btn-primary" type="button" value="登录">
+    </div>
+    <!--	  	</form>-->
+    <!-- 出错显示的信息框 -->
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+        <strong id="message">您还尚未进行登录呢~，请您登录!!</strong>
+    </div>
+</div>
+</body>
+</html>
